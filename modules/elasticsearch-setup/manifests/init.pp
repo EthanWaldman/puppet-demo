@@ -1,5 +1,5 @@
-class elasticsearch {
-	notify { '[elasticsearch] Setting up Elasticsearch repo and installing': withpath => false }
+class elasticsearch-setup {
+	notify { '[elasticsearch-setup] Setting up Elasticsearch repo and installing': withpath => false }
 
 	$elasticsearch_repo_content = "
 [elasticsearch-5.x]

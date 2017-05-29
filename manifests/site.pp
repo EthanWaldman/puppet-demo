@@ -1,4 +1,6 @@
 node 'centos7_mon' {
 	include monitor-prereqs
-	include elasticsearch
+	include elasticsearch-setup
+	include kibana-setup
+	include nagios-setup
 }

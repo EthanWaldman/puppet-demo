@@ -92,6 +92,7 @@ type=rpm-md
 
 	service { 'elasticsearch':
 		require => Exec['elasticsearch-config-http-port'],
+		enable => true,
 		ensure => running
 	}
 }

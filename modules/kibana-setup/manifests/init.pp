@@ -45,6 +45,7 @@ type=rpm-md
 
 	service { 'kibana':
 		require => Exec['kibana-config-server-port'],
+		enable => true,
 		ensure => running
 	}
 }

@@ -70,4 +70,10 @@ class nagios-setup {
 		group => nagios,
 		mode => 0755
 	}
+
+	service { 'nagios':
+		require => [Package['nagios'],Exec['config-resource-docker-endpoint'],Exec['clone-plugins'],Exec['clone-configs']],
+		enable => true,
+		ensure => running
+	}
 }

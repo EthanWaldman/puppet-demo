@@ -6,7 +6,13 @@ class nagios-setup {
 	$nagios_plugins_dir = "/opt/nagios_plugins"
 	$docker_api_endpoint = "192.168.33.13:2375"
 
+	package { 'httpd':
+		ensure => installed,
+		allow_virtual => false
+	}
+
 	package { 'nagios':
+		require => Package['httpd'],
 		ensure => installed,
 		allow_virtual => false
 	}
@@ -73,6 +79,11 @@ class nagios-setup {
 
 	service { 'nagios':
 		require => [Package['nagios'],Exec['config-resource-docker-endpoint'],Exec['clone-plugins'],Exec['clone-configs']],
+		enable => true,
+		ensure => running
+	}
+	service { 'httpd':
+		require => Service['nagios'],
 		enable => true,
 		ensure => running
 	}

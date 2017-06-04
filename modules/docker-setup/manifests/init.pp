@@ -9,7 +9,7 @@ class docker-setup {
         exec { 'docker-enable-network-access':
                 require => Package['docker'],
                 path => '/bin',
-                command => 'sed -E -i "s/^DOCKER_NETWORK_OPTIONS=.*$/DOCKER_NETWOR_OPTIONS=\"-H unix:///var/run/docker.sock -H tcp://0.0.0.0\"/" /etc/sysconfig/docker-network',
+                command => 'sed -E -i "s|^DOCKER_NETWORK_OPTIONS=.*$|DOCKER_NETWORK_OPTIONS=\"-H unix:///var/run/docker.sock -H tcp://0.0.0.0\"|" /etc/sysconfig/docker-network',
                 unless => 'cat /etc/sysconfig/docker-network | grep -q tcp://0.0.0.0'
         }
 

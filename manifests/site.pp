@@ -4,3 +4,7 @@ node 'centos7_mon' {
 	include kibana-setup
 	include nagios-setup
 }
+
+node 'centos7_docker1' {
+	include docker-setup
+}

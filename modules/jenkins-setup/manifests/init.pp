@@ -13,8 +13,15 @@ gpgcheck=1
 		content => "$jenkins_repo_content"
 	}
 
-	package { 'jenkins':
+	exec { 'jenkins-repo-key':
 		require => File['/etc/yum.repos.d/jenkins.repo'],
+		path => '/usr/bin',
+		command => 'rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key',
+		unless => 'rpm -qi gpg-pubkey-* | grep -q cloudbees.com'
+	}
+
+	package { 'jenkins':
+		require => Exec['jenkins-repo-key'],
 		ensure => installed,
 		allow_virtual => false
 	}

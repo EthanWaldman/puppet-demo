@@ -8,3 +8,7 @@ node 'centos7_mon' {
 node 'centos7_docker1' {
 	include docker-setup
 }
+
+node 'centos7_build' {
+	include jenkins-setup
+}

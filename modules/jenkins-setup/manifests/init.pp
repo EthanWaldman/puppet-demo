@@ -8,7 +8,13 @@ baseurl=http://pkg.jenkins.io/redhat-stable
 gpgcheck=1
 "
 
+	package { 'java-1.8.0-openjdk':
+		ensure => installed,
+		allow_virtual => false
+	}
+
 	file { '/etc/yum.repos.d/jenkins.repo':
+		require => Package['java-1.8.0-openjdk'],
 		ensure => file,
 		content => "$jenkins_repo_content"
 	}
@@ -17,7 +23,7 @@ gpgcheck=1
 		require => File['/etc/yum.repos.d/jenkins.repo'],
 		path => '/usr/bin',
 		command => 'rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key',
-		unless => 'rpm -qi gpg-pubkey-* | grep -q cloudbees.com'
+		unless => 'rpm -qi gpg-pubkey-* | grep -q kkawaguchi@cloudbees.com'
 	}
 
 	package { 'jenkins':

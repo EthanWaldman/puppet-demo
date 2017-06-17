@@ -57,4 +57,10 @@ gpgcheck=1
 		command => 'curl localhost:8080/jnlpJars/jenkins-cli.jar -o /usr/local/share/applications/jenkins-cli.jar',
 		unless => 'test -f /usr/local/share/applications/jenkins-cli.jar'
 	}
+
+	exec { 'reveal-initial-password':
+		require => Service['jenkins'],
+		path => '/bin',
+		command => "echo Jenkins initial password: `cat /var/lib/jenkins/secrets/initialAdminPassword`",
+	}
 }

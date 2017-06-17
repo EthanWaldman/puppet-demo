@@ -40,7 +40,7 @@ gpgcheck=1
 	}
 
 	service { 'jenkins':
-		require => Package['jenkins'],
+		require => File['/var/lib/jenkins/jenkins.install.InstallUtil.lastExecVersion'],
 		enable => true,
 		ensure => running
 	}

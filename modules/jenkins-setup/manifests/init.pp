@@ -62,5 +62,6 @@ gpgcheck=1
 		require => Service['jenkins'],
 		path => '/bin',
 		command => "echo Jenkins initial password: `cat /var/lib/jenkins/secrets/initialAdminPassword`",
+		logoutput => true
 	}
 }

@@ -32,6 +32,13 @@ gpgcheck=1
 		allow_virtual => false
 	}
 
+	file { '/var/lib/jenkins/jenkins.install.InstallUtil.lastExecVersion':
+		require => Package['jenkins'],
+		content => "2.0",
+		owner => jenkins,
+		group => jenkins
+	}
+
 	service { 'jenkins':
 		require => Package['jenkins'],
 		enable => true,

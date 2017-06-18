@@ -70,7 +70,14 @@ gpgcheck=1
 		path => '/bin',
 		command => 'java -jar /usr/local/share/applications/jenkins-cli.jar -s http://localhost:8080 -auth admin:`cat ~jenkins/secrets/initialAdminPassword` install-plugin build-pipeline-plugin',
 		unless => 'java -jar /usr/local/share/applications/jenkins-cli.jar -s http://localhost:8080 -auth admin:`cat ~jenkins/secrets/initialAdminPassword` list-plugins | grep -q build-pipeline-plugin',
-		notify => Service['jenkins']
+		notify => Service['jenkins-restart']
+	}
+
+	service { 'jenkins-restart':
+		require => File['/var/lib/jenkins/jenkins.install.InstallUtil.lastExecVersion'],
+		name => 'jenkins',
+		enable => true,
+		ensure => running
 	}
 
 	exec { 'reveal-initial-password':

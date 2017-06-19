@@ -79,10 +79,39 @@ gpgcheck=1
 		refreshonly => true
 	}
 
+	file { '/var/tmp/jenkins-config':
+		require => Service['jenkins'],
+		ensure => directory,
+		notify => Exec['load-jenkins-config-pull']
+	}
+
+	package { 'git':
+		ensure => installed,
+		allow_virtual => false
+	}
+
+	exec { 'load-jenkins-config-pull':
+		require => Package['git'],
+		cwd => '/var/tmp/jenkins-config',
+		path => '/usr/bin',
+		command => 'git clone https://github.com/EthanWaldman/jenkins-config.git .',
+		notify => Exec['load-jenkins-config-runscript'],
+		refreshonly => true
+	}
+
+	exec { 'load-jenkins-config-runscript':
+		cwd => '/var/tmp/jenkins-config',
+		path => ['/bin','/usr/bin'],
+		command => 'bash ./create_jenkins_items.sh',
+		notify => Exec['reveal-initial-password'],
+		refreshonly => true
+	}
+
 	exec { 'reveal-initial-password':
 		require => Service['jenkins'],
 		path => '/bin',
 		command => "echo Jenkins initial password: `cat /var/lib/jenkins/secrets/initialAdminPassword`",
-		logoutput => true
+		logoutput => true,
+		refreshonly => true
 	}
 }

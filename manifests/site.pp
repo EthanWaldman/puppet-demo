@@ -11,4 +11,5 @@ node 'centos7_docker1' {
 
 node 'centos7_build' {
 	include jenkins-setup
+	include artifactory-setup
 }

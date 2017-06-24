@@ -16,7 +16,7 @@ enabled=1
 	}
 
 	package { 'jfrog-artifactory-oss':
-		require => File['/etc/yum.repos.d/bintray-jfrog-artifactory-rpms.repo''],
+		require => File['/etc/yum.repos.d/bintray-jfrog-artifactory-rpms.repo'],
 		ensure => installed,
 		allow_virtual => false
 	}

@@ -65,8 +65,15 @@ gpgcheck=1
 		unless => 'java -jar /usr/local/share/applications/jenkins-cli.jar -s http://localhost:8080 -auth admin:`cat ~jenkins/secrets/initialAdminPassword` list-plugins | grep -q artifactory'
 	}
 
-	exec { 'jenkins-cli-plugin-pipeline':
+	exec { 'jenkins-cli-plugin-git':
 		require => Exec['jenkins-cli-plugin-artifactory'],
+		path => '/bin',
+		command => 'java -jar /usr/local/share/applications/jenkins-cli.jar -s http://localhost:8080 -auth admin:`cat ~jenkins/secrets/initialAdminPassword` install-plugin git',
+		unless => 'java -jar /usr/local/share/applications/jenkins-cli.jar -s http://localhost:8080 -auth admin:`cat ~jenkins/secrets/initialAdminPassword` list-plugins | grep -q git'
+	}
+
+	exec { 'jenkins-cli-plugin-pipeline':
+		require => Exec['jenkins-cli-plugin-git'],
 		path => '/bin',
 		command => 'java -jar /usr/local/share/applications/jenkins-cli.jar -s http://localhost:8080 -auth admin:`cat ~jenkins/secrets/initialAdminPassword` install-plugin build-pipeline-plugin',
 		unless => 'java -jar /usr/local/share/applications/jenkins-cli.jar -s http://localhost:8080 -auth admin:`cat ~jenkins/secrets/initialAdminPassword` list-plugins | grep -q build-pipeline-plugin',

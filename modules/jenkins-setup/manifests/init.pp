@@ -12,9 +12,13 @@ gpgcheck=1
 		ensure => installed,
 		allow_virtual => false
 	}
+	package { 'java-1.8.0-openjdk-devel':
+		ensure => installed,
+		allow_virtual => false
+	}
 
 	file { '/etc/yum.repos.d/jenkins.repo':
-		require => Package['java-1.8.0-openjdk'],
+		require => [Package['java-1.8.0-openjdk'],Package['java-1.8.0-openjdk-devel']],
 		ensure => file,
 		content => "$jenkins_repo_content"
 	}

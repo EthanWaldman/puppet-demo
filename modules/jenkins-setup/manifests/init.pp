@@ -49,7 +49,7 @@ gpgcheck=1
 		ensure => running
 	}
 
-	package { 'docker-io':
+	package { 'docker-client':
 		ensure => installed,
 		allow_virtual => false
 	}

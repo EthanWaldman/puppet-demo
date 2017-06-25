@@ -10,20 +10,20 @@ class grafana-setup {
 		allow_virtual => false
 	}
 
-	service { 'grafana':
+	service { 'grafana-server':
 		require => Package['grafana'],
 		enable => true,
 		ensure => running
 	}
 
 	package { 'curl':
-		require => Service['grafana'],
+		require => Service['grafana-server'],
 		ensure => installed,
 		allow_virtual => false
 	}
 
 	file { '/var/tmp/grafana-config':
-		require => Service['grafana'],
+		require => Service['grafana-server'],
 		ensure => directory,
 		notify => Exec['load-grafana-config-pull']
 	}

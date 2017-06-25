@@ -15,7 +15,7 @@ class grafana-setup {
 		path => '/bin',
 		command => 'sed -E -i "s/;http_port = 3000/http_port = 3001/" /etc/grafana/grafana.ini',
 		unless => 'cat /etc/grafana/grafana.ini | grep -q "http_port = 3001"',
-		notify => Service['grafana']
+		notify => Service['grafana-server']
 	}
 
 	service { 'grafana-server':

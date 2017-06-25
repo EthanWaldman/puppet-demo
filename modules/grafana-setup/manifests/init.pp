@@ -10,6 +10,14 @@ class grafana-setup {
 		allow_virtual => false
 	}
 
+	exec { 'set-grafana-port':
+		require => Package['grafana'],
+		path => '/bin',
+		command => 'sed -E -i "s/;http_port = 3000/http_port = 3001/" /etc/grafana/grafana.ini',
+		unless => 'cat /etc/grafana/grafana.ini | grep -q "http_port = 3001"',
+		notify => Service['grafana']
+	}
+
 	service { 'grafana-server':
 		require => Package['grafana'],
 		enable => true,

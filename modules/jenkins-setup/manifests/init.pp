@@ -49,6 +49,11 @@ gpgcheck=1
 		ensure => running
 	}
 
+	package { 'docker-io':
+		ensure => installed,
+		allow_virtual => false
+	}
+
 	package { 'curl':
 		require => Service['jenkins'],
 		ensure => installed,

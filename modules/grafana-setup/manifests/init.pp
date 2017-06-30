@@ -41,7 +41,7 @@ class grafana-setup {
 		cwd => '/var/tmp/grafana-config',
 		path => '/usr/bin',
 		command => 'git clone https://github.com/EthanWaldman/grafana-configs.git .',
-		notify => Exec['load-grafana-config-runscript'],
+		notify => Exec['load-grafana-config-runscript-datasources'],
 		refreshonly => true
 	}
 

@@ -16,7 +16,7 @@ class aws-setup {
 
 	exec { 'install-aws-cli':
 		require => Exec['python-pip-install'],
-		path => '/bin',
+		path => ['/bin','/usr/local/bin'],
 		command => 'pip install awscli --upgrade --user && cp ~/.local/bin/aws /usr/local/bin && chmod +rx /usr/local/bin/aws',
 		unless => 'which aws'
 	}

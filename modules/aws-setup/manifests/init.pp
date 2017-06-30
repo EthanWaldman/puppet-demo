@@ -13,4 +13,11 @@ class aws-setup {
 		command => 'curl -O https://bootstrap.pypa.io/get-pip.py; python3 get-pip.py',
 		unless => 'which pip'
 	}
+
+	exec { 'install-aws-cli':
+		require => Exec['python-pip-install'],
+		path => '/bin',
+		command => 'pip install awscli --upgrade --user && cp `which aws` /usr/local/bin && chmod +rx /usr/local/bin/aws',
+		unless => 'which aws'
+	}
 }

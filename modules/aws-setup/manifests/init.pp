@@ -9,7 +9,8 @@ class aws-setup {
 	exec { 'python-pip-install':
 		require => Package['python34'],
 		path => '/usr/bin',
-		command => 'python3 get-pip.py',
+		cwd => '/var/tmp',
+		command => 'curl -O https://bootstrap.pypa.io/get-pip.py; python3 get-pip.py',
 		unless => 'which pip'
 	}
 }

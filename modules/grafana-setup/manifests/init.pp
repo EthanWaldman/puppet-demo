@@ -45,10 +45,17 @@ class grafana-setup {
 		refreshonly => true
 	}
 
-	exec { 'load-grafana-config-runscript':
+	exec { 'load-grafana-config-runscript-datasources':
 		cwd => '/var/tmp/grafana-config',
 		path => ['/bin','/usr/bin'],
-		command => 'bash ./create_grafana_items.sh',
+		command => 'bash ./create_grafana_items.sh datasource',
+		notify => Exec['load-grafana-config-runscript-dashboards'],
+		refreshonly => true
+	}
+	exec { 'load-grafana-config-runscript-dashboards':
+		cwd => '/var/tmp/grafana-config',
+		path => ['/bin','/usr/bin'],
+		command => 'bash ./create_grafana_items.sh dashboard',
 		refreshonly => true
 	}
 }

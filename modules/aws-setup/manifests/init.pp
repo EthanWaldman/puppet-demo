@@ -7,12 +7,6 @@ region = us-west-2
 output = json
 "
 
-	$aws_credentials_file = "
-[default]
-aws_secret_access_key = farMNOu3UTpkXrCBhIRTnCf34ZA8AT5YyZcEcfXT
-aws_access_key_id = AKIAJKH6D4QF3Q4TP6XA
-"
-
 	package { 'python34':
 		ensure => installed,
 		allow_virtual => false
@@ -47,14 +41,6 @@ aws_access_key_id = AKIAJKH6D4QF3Q4TP6XA
 		require => File['/var/lib/jenkins/.aws'],
 		ensure => file,
 		content => "$aws_config_file",
-		owner => jenkins,
-		group => jenkins,
-		mode => '0600'
-	}
-	file { '/var/lib/jenkins/.aws/credentials':
-		require => File['/var/lib/jenkins/.aws'],
-		ensure => file,
-		content => "$aws_credentials_file",
 		owner => jenkins,
 		group => jenkins,
 		mode => '0600'

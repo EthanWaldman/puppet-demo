@@ -1,11 +1,14 @@
 class aws-setup {
 	notify { '[aws-setup] Setting up AWS CLI and ECS CLI': withpath => false }
 
+	$aws_region = "us-west-2"
 	$aws_config_file = "
 [default]
-region = us-west-2
+region = $aws_region
 output = json
 "
+	$aws_credfilepath = "/var/lib/jenkins/.aws/credentials"
+	$ecs_cluster = "ew-ecs-cluster"
 
 	package { 'python34':
 		ensure => installed,
@@ -45,12 +48,26 @@ output = json
 		group => jenkins,
 		mode => '0600'
 	}
-	file { '/var/lib/jenkins/.aws/credentials':
+	file { "$aws_credfilepath":
 		require => File['/var/lib/jenkins/.aws'],
 		ensure => file,
 		source => "file:/vagrant/credentials",
 		owner => jenkins,
 		group => jenkins,
 		mode => '0600'
+	}
+
+	exec { 'install-ecs-cli':
+		require => File["$aws_credfilepath"],
+		path => ['/usr/bin','/usr/local/bin'],
+		command => 'curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest',
+		notify => Exec['configure-ecs-cli'],
+		unless => 'which ecs-cli'
+	}
+
+	exec { 'configure-ecs-cli':
+		path => ['/usr/bin','/usr/local/bin'],
+		command => "ecs-cli configure -region $aws_region --access-key=`cat $aws_credfilepath | grep access_key_id | tr -d ' ' | cut -d= -f2` --secret-key=`cat $aws_credfilepath | grep secret_access_key | tr -d ' ' | cut -d= -f2` --cluster $ecs_cluster",
+		refreshonly => true
 	}
 }

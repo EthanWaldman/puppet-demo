@@ -62,13 +62,11 @@ output = json
 		path => ['/usr/bin','/usr/local/bin'],
 		command => 'curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest; chmod +rx /usr/local/bin/ecs-cli',
 		notify => Exec['configure-ecs-cli'],
-#		unless => 'which ecs-cli'
+		unless => 'which ecs-cli'
 	}
 
 	exec { 'configure-ecs-cli':
 		path => ['/bin', '/usr/bin','/usr/local/bin'],
-#		user => "jenkins",
-#		cwd => "/var/lib/jenkins",
 		command => "su - jenkins -c \"ecs-cli configure -region $aws_region --access-key=`cat $aws_credfilepath | grep access_key_id | tr -d ' ' | cut -d= -f2` --secret-key=`cat $aws_credfilepath | grep secret_access_key | tr -d ' ' | cut -d= -f2` --cluster $ecs_cluster\"",
 		logoutput => true,
 		refreshonly => true

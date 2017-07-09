@@ -45,7 +45,7 @@ output = json
 		group => jenkins,
 		mode => '0600'
 	}
-	file { '/var/lib/jenkins/.aws/config':
+	file { '/var/lib/jenkins/.aws/credentials':
 		require => File['/var/lib/jenkins/.aws'],
 		ensure => file,
 		source => "file:/vagrant/credentials",

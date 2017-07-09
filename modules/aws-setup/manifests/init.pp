@@ -68,7 +68,8 @@ output = json
 	exec { 'configure-ecs-cli':
 		path => ['/bin', '/usr/bin','/usr/local/bin'],
 		user => "jenkins",
-		command => "id",
+		cwd => "/var/lib/jenkins",
+		command => "pwd",
 #		command => "ecs-cli configure -region $aws_region --access-key=`cat $aws_credfilepath | grep access_key_id | tr -d ' ' | cut -d= -f2` --secret-key=`cat $aws_credfilepath | grep secret_access_key | tr -d ' ' | cut -d= -f2` --cluster $ecs_cluster",
 		logoutput => true,
 		refreshonly => true

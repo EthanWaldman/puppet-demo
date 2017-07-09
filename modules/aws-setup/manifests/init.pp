@@ -45,4 +45,12 @@ output = json
 		group => jenkins,
 		mode => '0600'
 	}
+	file { '/var/lib/jenkins/.aws/config':
+		require => File['/var/lib/jenkins/.aws'],
+		ensure => file,
+		source => file:/vagrant/credentials,
+		owner => jenkins,
+		group => jenkins,
+		mode => '0600'
+	}
 }

@@ -130,4 +130,8 @@ gpgcheck=1
 		logoutput => true,
 		refreshonly => true
 	}
+
+	file { '/var/lib/jenkins/secrets/initialAdminPassword':
+		owner => 'jenkins'
+	}
 }

@@ -24,7 +24,7 @@ output = json
 	}
 
 	exec { 'install-aws-cli':
-		require => [ Exec['python-pip-install'], Package['Jenkins'] ]
+		require => [ Exec['python-pip-install'], Package['jenkins'] ]
 		path => ['/bin','/usr/local/bin'],
 #		command => 'pip install awscli --upgrade --user && cp ~/.local/bin/aws /usr/local/bin && chmod +rx /usr/local/bin/aws',
 		command => 'pip install awscli --upgrade --user',

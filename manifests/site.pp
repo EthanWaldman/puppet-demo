@@ -1,4 +1,4 @@
-node 'centos7_mon' {
+node 'demo_mon' {
 	include monitor-prereqs
 	include elasticsearch-setup
 	include kibana-setup
@@ -6,11 +6,11 @@ node 'centos7_mon' {
 	include grafana-setup
 }
 
-node 'centos7_docker1' {
+node 'demo_docker' {
 	include docker-setup
 }
 
-node 'centos7_build' {
+node 'demo_build' {
 	include jenkins-setup
 	include artifactory-setup
 	include aws-setup

@@ -19,7 +19,7 @@ output = json
 		require => Package['python34'],
 		path => '/usr/bin',
 		cwd => '/var/tmp',
-		command => 'curl -O https://bootstrap.pypa.io/get-pip.py; python3 get-pip.py',
+		command => 'curl --tlsv1 -O https://bootstrap.pypa.io/get-pip.py; python3 get-pip.py',
 		unless => 'which pip'
 	}
 
